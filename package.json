@@ -11,7 +11,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@creact-labs/creact": "^0.1.5",
+    "@creact-labs/creact": "^0.1.6",
     "better-sqlite3": "^12.4.1"
   },
   "devDependencies": {

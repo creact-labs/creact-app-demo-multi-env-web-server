@@ -1,22 +1,16 @@
 // Infrastructure construct definitions
 // These are simple classes that represent cloud resources
 
-export class VPC {
-  constructor(public props: any) {}
-}
-
-export class Database {
-  constructor(public props: any) {}
-}
-
-export class API {
-  constructor(public props: any) {}
-}
-
-export class StaticSite {
-  constructor(public props: any) {}
-}
-
-export class HttpServer {
-  constructor(public props: any) {}
+/**
+ * WebServer - Serves static HTML content via http-server
+ * 
+ * This construct combines static site generation and HTTP serving
+ * into a single resource, following the "one useInstance per component" pattern.
+ */
+export class WebServer {
+  constructor(public props: {
+    name: string;
+    port: number;
+    content: string;
+  }) {}
 }

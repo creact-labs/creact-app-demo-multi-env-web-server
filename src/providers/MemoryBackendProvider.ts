@@ -1,5 +1,5 @@
 import Database from 'better-sqlite3';
-import { IBackendProvider } from '@creact-labs/creact';
+import type { IBackendProvider } from '../../../../src/index';
 
 export class SQLiteBackendProvider implements IBackendProvider {
   private db: Database.Database;
