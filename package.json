@@ -8,7 +8,7 @@
     "dev:log": "cross-env CREACT_LOG=* CREACT_LOG_LEVEL=debug creact dev --entry src/app.tsx --auto-approve --verbose",
     "deploy": "creact deploy --entry src/app.tsx",
     "plan": "creact plan --entry src/app.tsx",
-    "clean": "rimraf .creact-state demo-stack.db sites"
+    "clean": "rimraf .creact-state creact-state.db sites"
   },
   "keywords": [
     "creact",
@@ -19,7 +19,7 @@
   "author": "Daniel Coutinho Ribeiro <dcoutinho.96@gmail.com>",
   "license": "Apache-2.0",
   "dependencies": {
-    "@creact-labs/creact": "^0.1.7",
+    "@creact-labs/creact": "^0.1.8",
     "better-sqlite3": "^12.4.1",
     "cross-spawn": "^7.0.3",
     "http-server": "^14.1.1",
