@@ -7,7 +7,7 @@ Multi env landing page CReact app
 ## Prerequisites
 
 - **Node.js** 18.0.0 or higher
-- **npm** (comes with Node.js)
+- **npm** 
 
 ### Platform-Specific Requirements
 
@@ -44,11 +44,6 @@ All dependencies are chosen for cross-platform compatibility.
 npm run dev
 ```
 
-This starts CReact in development mode with:
-- Automatic change detection
-- Hot reload on file changes
-- Auto-approval of changes (no manual confirmation)
-
 ### Other Commands
 
 ```bash
@@ -82,7 +77,6 @@ set CREACT_LOG=* && set CREACT_LOG_LEVEL=debug && creact dev --entry src/app.tsx
 ```
 ## Accessing Deployed Servers
 
-Once deployed, the servers are available at:
 - Development: http://localhost:8080
 - Staging: http://localhost:8081
 - Production: http://localhost:8082
