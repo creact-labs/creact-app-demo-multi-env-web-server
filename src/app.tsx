@@ -8,7 +8,7 @@
  * 4. Hot reload in dev mode
  */
 
-import { CReact, CReactCore, renderCloudDOM, createContext, useContext, useInstance } from '../../../src/index';
+import { CReact, CReactCore, renderCloudDOM, createContext, useContext, useInstance } from '@creact-labs/creact';
 import { RealHttpServerProvider } from './providers/WebServerProvider';
 import { SQLiteBackendProvider } from './providers/MemoryBackendProvider';
 import { WebServer } from './constructs';

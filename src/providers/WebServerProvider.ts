@@ -1,4 +1,4 @@
-import type { ICloudProvider, DriftDetectionResult, CloudDOMNode } from '../../../../src/index';
+import type { ICloudProvider, DriftDetectionResult, CloudDOMNode } from '@creact-labs/creact';
 import { spawn, ChildProcess } from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';

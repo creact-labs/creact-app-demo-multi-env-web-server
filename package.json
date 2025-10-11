@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "dev:log": "CREACT_LOG=* CREACT_LOG_LEVEL=debug creact dev --entry src/app.tsx --auto-approve --verbose  2>&1 | tee debug.log",
     "dev": "creact dev --entry src/app.tsx --auto-approve",
     "deploy": "creact deploy --entry src/app.tsx",
     "plan": "creact plan --entry src/app.tsx"
@@ -11,7 +12,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@creact-labs/creact": "^0.1.6",
+    "@creact-labs/creact": "^0.1.7",
     "better-sqlite3": "^12.4.1"
   },
   "devDependencies": {
