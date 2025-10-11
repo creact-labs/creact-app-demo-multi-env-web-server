@@ -1,5 +1,3 @@
-# CReact Demo - Multi-Environment Web Server
-
 # [CReact Demo - Multi-Environment Web Server](https://github.com/creact-labs/creact)
 
 ![creact](https://i.postimg.cc/8P66GnT3/banner.jpg)
