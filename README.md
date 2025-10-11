@@ -9,36 +9,10 @@ Multi env landing page CReact app
 - **Node.js** 18.0.0 or higher
 - **npm** 
 
-### Platform-Specific Requirements
-
-#### Linux/macOS
-- No additional requirements
-
-#### Windows
-- **PowerShell** or **Command Prompt**
-- **Windows Terminal** (recommended for better experience)
-
-## Installation
-
-```bash
-# Clone or navigate to the demo directory
-cd examples/creact-demo
-
-# Install dependencies
+# Getting Started
+```cmd
 npm install
 ```
-
-This will install:
-- `@creact-labs/creact` - The CReact framework
-- `http-server` - HTTP server for serving static content
-- `better-sqlite3` - SQLite database for state persistence
-- `cross-spawn` - Cross-platform process spawning
-- `tree-kill` - Cross-platform process cleanup
-- `cross-env` - Cross-platform environment variables
-- `rimraf` - Cross-platform file deletion
-- TypeScript and related tooling
-
-All dependencies are chosen for cross-platform compatibility.
 
 ```cmd
 npm run dev
@@ -58,8 +32,6 @@ npm run clean
 ```
 
 ### Debug Mode
-
-To see detailed internal logs:
 
 **Linux/macOS:**
 ```bash
