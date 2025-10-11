@@ -1,0 +1,23 @@
+{
+  "name": "creact-demo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "creact dev --entry src/app.tsx --auto-approve",
+    "deploy": "creact deploy --entry src/app.tsx",
+    "plan": "creact plan --entry src/app.tsx"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@creact-labs/creact": "^0.1.5",
+    "better-sqlite3": "^12.4.1"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.13",
+    "@types/node": "^20.0.0",
+    "tsx": "^4.20.6",
+    "typescript": "^5.0.0"
+  }
+}
