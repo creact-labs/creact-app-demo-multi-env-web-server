@@ -40,44 +40,6 @@ This will install:
 
 All dependencies are chosen for cross-platform compatibility.
 
-## Project Structure
-
-```
-src/
-├── app.tsx                    # Entry point - provider configuration
-├── components/                # React-like component structure
-│   ├── index.ts              # Component exports
-│   ├── App.tsx               # Root application component
-│   ├── EnvironmentStack.tsx  # Environment configuration wrapper
-│   └── EnvironmentWebServer.tsx  # Web server deployment component
-├── contexts/                  # Context definitions
-│   └── EnvironmentContext.ts # Environment configuration context
-├── config/                    # Configuration files
-│   └── environments.ts       # Environment definitions
-├── providers/                 # Cloud and backend providers
-│   ├── index.ts              # Provider exports
-│   ├── WebServerProvider.ts  # HTTP server provider
-│   └── MemoryBackendProvider.ts  # SQLite backend
-├── utils/                     # Utility functions
-│   └── htmlGenerator.ts      # HTML content generation
-└── constructs.ts             # Infrastructure constructs
-```
-
-## Usage
-
-### Development Mode (Hot Reload)
-
-**Linux/macOS:**
-```bash
-npm run dev
-```
-
-**Windows (PowerShell):**
-```powershell
-npm run dev
-```
-
-**Windows (Command Prompt):**
 ```cmd
 npm run dev
 ```
@@ -138,7 +100,17 @@ lsof -ti:8080 | xargs kill -9
 **Windows (PowerShell):**
 ```powershell
 # Find and kill process on port 8080
-Get-NetTCPConnection -LocalPort 8080 | Select-Object -ExpandProperty OwningProcess | ForEach-Object { Stop-Process -Id $_ -Force }
+netstat -ano | findstr :8080
+# Note the PID from the output, then:
+taskkill /PID <PID> /F
+```
+
+**Windows (Command Prompt):**
+```cmd
+# Find process on port 8080
+netstat -ano | findstr :8080
+# Note the PID from the output, then:
+taskkill /PID <PID> /F
 ```
 
 ### Clean State and Start Fresh

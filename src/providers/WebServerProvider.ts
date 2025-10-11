@@ -39,34 +39,21 @@ export class RealHttpServerProvider implements ICloudProvider {
     const cleanup = () => {
       console.log('\n[WebServer] 🛑 Process exiting, stopping all servers...');
       
-      const killPromises = Array.from(this.processes.entries()).map(([id, proc]) => {
-        return new Promise<void>((resolve) => {
-          if (!proc.pid) {
-            resolve();
-            return;
+      // Synchronous cleanup - kill all processes immediately
+      for (const [id, proc] of this.processes.entries()) {
+        try {
+          if (proc.pid) {
+            // Use tree-kill synchronously for immediate cleanup
+            // This kills the process and all its children
+            kill(proc.pid, 'SIGTERM');
+            console.log(`[WebServer]   ✓ Stopped server: ${id}`);
           }
-
-          // tree-kill handles cross-platform process termination
-          // including child processes spawned by the server
-          kill(proc.pid, 'SIGTERM', (err) => {
-            if (err) {
-              // Process might already be dead, that's ok
-              console.log(`[WebServer]   ℹ Server ${id} already stopped`);
-            } else {
-              console.log(`[WebServer]   ✓ Stopped server: ${id}`);
-            }
-            resolve();
-          });
-        });
-      });
-
-      // Wait for all processes to be killed (with timeout)
-      Promise.race([
-        Promise.all(killPromises),
-        new Promise((resolve) => setTimeout(resolve, 2000)),
-      ]).then(() => {
-        this.processes.clear();
-      });
+        } catch (err) {
+          // Process might already be dead, that's ok
+          console.log(`[WebServer]   ℹ Server ${id} already stopped`);
+        }
+      }
+      this.processes.clear();
     };
 
     process.on('exit', cleanup);
@@ -80,14 +67,18 @@ export class RealHttpServerProvider implements ICloudProvider {
     });
   }
 
-  async materialize(nodes: CloudDOMNode[]): Promise<void> {
+  materialize(nodes: CloudDOMNode[]): void {
     console.log(`\n[WebServer] 🚀 Deploying ${nodes.length} resources...`);
 
     for (const node of nodes) {
       console.log(`[WebServer] 📦 ${node.constructType}: ${node.id}`);
 
       if (node.constructType === 'WebServer') {
-        await this.deployWebServer(node);
+        // Note: materialize is synchronous, but we need async operations
+        // We'll use a workaround by making the deployment happen in the background
+        this.deployWebServer(node).catch((err) => {
+          console.error(`[WebServer]   ✗ Failed to deploy ${node.id}:`, err);
+        });
       }
 
       console.log(`[WebServer]   ✓ Outputs:`, node.outputs);
