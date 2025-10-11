@@ -1,6 +1,19 @@
 import Database from 'better-sqlite3';
 import type { IBackendProvider } from '@creact-labs/creact';
 
+/**
+ * SQLite Backend Provider
+ * 
+ * Persists CReact state to a local SQLite database.
+ * 
+ * Cross-Platform Support:
+ * - Works on Linux, macOS, and Windows
+ * - Uses better-sqlite3 which has native bindings for all platforms
+ * - File paths are handled by Node.js path module (cross-platform)
+ * 
+ * Note: On Windows, better-sqlite3 requires Visual C++ Build Tools.
+ * See README for installation instructions if you encounter build errors.
+ */
 export class SQLiteBackendProvider implements IBackendProvider {
   private db: Database.Database;
 

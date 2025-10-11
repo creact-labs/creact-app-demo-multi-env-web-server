@@ -1,5 +1,7 @@
 import type { ICloudProvider, DriftDetectionResult, CloudDOMNode } from '@creact-labs/creact';
-import { spawn, ChildProcess } from 'child_process';
+import { ChildProcess } from 'child_process';
+import spawn from 'cross-spawn';
+import kill from 'tree-kill';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as http from 'http';
@@ -9,6 +11,17 @@ import * as http from 'http';
  * 
  * Deploys web servers with static content using http-server.
  * Demonstrates proper drift detection and resource lifecycle management.
+ * 
+ * Cross-Platform Support:
+ * - Works on Linux, macOS, and Windows
+ * - Uses cross-spawn for platform-agnostic process spawning
+ * - Uses tree-kill for proper process cleanup (including child processes)
+ * - Uses Node.js built-in APIs (fs, path, http) which are cross-platform
+ * 
+ * Dependencies:
+ * - http-server: Static file server
+ * - cross-spawn: Cross-platform process spawning
+ * - tree-kill: Cross-platform process tree termination
  */
 export class RealHttpServerProvider implements ICloudProvider {
   private processes: Map<string, ChildProcess> = new Map();
@@ -25,15 +38,35 @@ export class RealHttpServerProvider implements ICloudProvider {
 
     const cleanup = () => {
       console.log('\n[WebServer] 🛑 Process exiting, stopping all servers...');
-      for (const [id, process] of this.processes.entries()) {
-        try {
-          process.kill('SIGTERM');
-          console.log(`[WebServer]   ✓ Stopped server: ${id}`);
-        } catch (err) {
-          // Process might already be dead
-        }
-      }
-      this.processes.clear();
+      
+      const killPromises = Array.from(this.processes.entries()).map(([id, proc]) => {
+        return new Promise<void>((resolve) => {
+          if (!proc.pid) {
+            resolve();
+            return;
+          }
+
+          // tree-kill handles cross-platform process termination
+          // including child processes spawned by the server
+          kill(proc.pid, 'SIGTERM', (err) => {
+            if (err) {
+              // Process might already be dead, that's ok
+              console.log(`[WebServer]   ℹ Server ${id} already stopped`);
+            } else {
+              console.log(`[WebServer]   ✓ Stopped server: ${id}`);
+            }
+            resolve();
+          });
+        });
+      });
+
+      // Wait for all processes to be killed (with timeout)
+      Promise.race([
+        Promise.all(killPromises),
+        new Promise((resolve) => setTimeout(resolve, 2000)),
+      ]).then(() => {
+        this.processes.clear();
+      });
     };
 
     process.on('exit', cleanup);
@@ -152,7 +185,7 @@ export class RealHttpServerProvider implements ICloudProvider {
 
     console.log(`[WebServer]   ✓ Created site at ${siteDir}`);
 
-    // Start http-server
+    // Start http-server using cross-spawn (handles Windows/Unix differences automatically)
     const serverProcess = spawn('npx', ['http-server', siteDir, '-p', String(port), '-c-1'], {
       stdio: ['ignore', 'pipe', 'pipe'],
       detached: false,

@@ -1,25 +1,41 @@
 {
   "name": "creact-demo",
   "version": "1.0.0",
-  "main": "index.js",
+  "description": "CReact demo - Multi-environment web server deployment",
+  "main": "src/app.tsx",
   "scripts": {
-    "dev:log": "CREACT_LOG=* CREACT_LOG_LEVEL=debug creact dev --entry src/app.tsx --auto-approve --verbose  2>&1 | tee debug.log",
     "dev": "creact dev --entry src/app.tsx --auto-approve",
+    "dev:log": "cross-env CREACT_LOG=* CREACT_LOG_LEVEL=debug creact dev --entry src/app.tsx --auto-approve --verbose",
     "deploy": "creact deploy --entry src/app.tsx",
-    "plan": "creact plan --entry src/app.tsx"
+    "plan": "creact plan --entry src/app.tsx",
+    "clean": "rimraf .creact-state demo-stack.db sites"
   },
-  "author": "",
-  "license": "ISC",
-  "description": "",
+  "keywords": [
+    "creact",
+    "infrastructure",
+    "demo",
+    "jsx"
+  ],
+  "author": "Daniel Coutinho Ribeiro <dcoutinho.96@gmail.com>",
+  "license": "Apache-2.0",
   "dependencies": {
     "@creact-labs/creact": "^0.1.7",
-    "better-sqlite3": "^12.4.1"
+    "better-sqlite3": "^12.4.1",
+    "cross-spawn": "^7.0.3",
+    "http-server": "^14.1.1",
+    "tree-kill": "^1.2.2"
   },
   "devDependencies": {
     "@types/better-sqlite3": "^7.6.13",
+    "@types/cross-spawn": "^6.0.6",
     "@types/node": "^20.0.0",
+    "cross-env": "^7.0.3",
+    "rimraf": "^5.0.5",
     "ts-node": "^10.9.2",
     "tsx": "^4.20.6",
     "typescript": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }
